@@ -3,34 +3,34 @@
 
 class Calculator {
   public:
-    int add(int a, int b) {
-      return a + b;
+    static int add(int aNum, int bNum) {
+      return aNum + bNum;
     }
 
-    float add(float a, float b) {
-      return a + b;
+    static float add(float aNum, float bNum) {
+      return aNum + bNum;
     }  // overload to produce float results
 
-    int subtract(int a, int b) {
-      return a - b;
+    static int subtract(int aNum, int bNum) {
+      return aNum - bNum;
     }
 
-    float subtract(float a, float b) {
-      return a - b;
+    static float subtract(float aNum, float bNum) {
+      return aNum - bNum;
     }
 
-    int multiply(int a, int b) {
-      return a * b;
+    static int multiply(int aNum, int bNum) {
+      return aNum * bNum;
     }
 
-    float multiply(float a, float b) {
-      return a * b;
+    static float multiply(float aNum, float bNum) {
+      return aNum * bNum;
     }
 
-    float divide(float a, float b) {
-      float result;
+    static float divide(float aNum, float bNum) {
+      float result {};
       try {
-        result = a / b;
+        result = aNum / bNum;
       } catch (const char* msg) {
         std::cerr << msg << std::endl;
         return 0;
@@ -38,37 +38,39 @@ class Calculator {
       return result;
     }
 
-    int abs(int a) {
-      return a < 0 ? -a : a;
+    static int abs(int aNum) {
+      return aNum < 0 ? -aNum : aNum;
     }
 
-    float abs(float a) {
-      return a < 0 ? -a : a;
+    static float abs(float aNum) {
+      return aNum < 0 ? -aNum : aNum;
     }
 
-    double abs(double a) {
-      return a < 0 ? -a : a;
+    static double abs(double aNum) {
+      return aNum < 0 ? -aNum : aNum;
     }
 
-    double power(double a, int b) {
-      if (b == 1) {
-        return a;
+    static double power(double aNum, int bNum) {
+      if (bNum == 1) {
+        return aNum;
       }
-      if (b == 0) {
+      if (bNum == 0) {
         return 1;
       }
-      if (b < 0) {
-        a = 1 / a;
-        b = -b;
+
+      if (bNum < 0) {
+        aNum = 1 / aNum;
+        bNum = -bNum;
       }
       double result = 1.0;
+      auto bNumUnsigned = static_cast<unsigned int>(bNum);
 
-      while (b) {
-        if (b & 1) {
-          result *= a;
+      while (static_cast<bool>(bNumUnsigned)) {
+        if (bNumUnsigned & 0b1) {
+          result *= aNum;
         }
-        b >>= 1;
-        a *= a;
+        bNumUnsigned >>= 0b1;
+        aNum *= aNum;
       }
 
       return result;
@@ -76,45 +78,43 @@ class Calculator {
 };
 
 int main() {
-  int a = 5;
-  int b = 2;
-  int c = 4;
-  float d = 2.54;
-  float e = 42.069;
-  float f = 31.419;
-  double g = 2;
-  double h = 5.5;
-  int i = -5;
-  float j = -2.54;
-  double k = -5.5;
+  int aNum = 5;
+  int bNum = 2;
+  int cNum = 4;
+  float dNum = 2.54;
+  float eNum = 42.069;
+  float fNum = 31.419;
+  int gNum = bNum;
+  double hNum = 5.5;
+  int iNum = -aNum;
+  float jNum = -dNum;
+  double kNum = -hNum;
 
-  Calculator calc;
+  int sum = Calculator::add(aNum, bNum);
+  float sumf = Calculator::add(dNum, eNum);
+  int product = Calculator::multiply(cNum, bNum);
+  float productf = Calculator::multiply(dNum, fNum);
+  int difference = Calculator::subtract(aNum, bNum);
+  float differencef = Calculator::subtract(eNum, fNum);
+  float quotient = Calculator::divide(static_cast<float>(cNum), dNum);
+  double power = Calculator::power(hNum, gNum);
+  int absi = Calculator::abs(iNum);
+  float absf = Calculator::abs(jNum);
+  double absd = Calculator::abs(kNum);
+  double power2 = Calculator::power(hNum, iNum);
 
-  int sum = calc.add(a, b);
-  float sumf = calc.add(d, e);
-  int product = calc.multiply(c, b);
-  float productf = calc.multiply(d, f);
-  int difference = calc.subtract(a, b);
-  float differencef = calc.subtract(e, f);
-  float quotient = calc.divide(c, d);
-  double power = calc.power(h, g);
-  int absi = calc.abs(i);
-  float absf = calc.abs(j);
-  double absd = calc.abs(k);
-  double power2 = calc.power(h, i);
-
-  std::cout << "Sum of " << a << " and " << b << ": " << sum << "\n";
-  std::cout << "Sum of " << d << " and " << e << ": " << sumf << "\n";
-  std::cout << "Product of " << c << " and " << b << ": " << product << "\n";
-  std::cout << "Product of " << d << " and " << f << ": " << productf << "\n";
-  std::cout << "Difference of " << a << " and " << b << ": " << difference << "\n";
-  std::cout << "Difference of " << e << " and " << f << ": " << differencef << "\n";
-  std::cout << "Quotient of " << c << " divided by " << d << ": " << quotient << "\n";
-  std::cout << h << " to the power of " << g << " = " << power << "\n";
-  std::cout << "Absolute value of " << i << ": " << absi << "\n";
-  std::cout << "Absolute value of " << j << ": " << absf << "\n";
-  std::cout << "Absolute value of " << k << ": " << absd << "\n";
-  std::cout << h << " to the power of " << i << " = " << power2 << "\n";
+  std::cout << "Sum of " << aNum << " and " << bNum << ": " << sum << "\n";
+  std::cout << "Sum of " << dNum << " and " << eNum << ": " << sumf << "\n";
+  std::cout << "Product of " << cNum << " and " << bNum << ": " << product << "\n";
+  std::cout << "Product of " << dNum << " and " << fNum << ": " << productf << "\n";
+  std::cout << "Difference of " << aNum << " and " << bNum << ": " << difference << "\n";
+  std::cout << "Difference of " << eNum << " and " << fNum << ": " << differencef << "\n";
+  std::cout << "Quotient of " << cNum << " divided by " << dNum << ": " << quotient << "\n";
+  std::cout << hNum << " to the power of " << gNum << " = " << power << "\n";
+  std::cout << "Absolute value of " << iNum << ": " << absi << "\n";
+  std::cout << "Absolute value of " << jNum << ": " << absf << "\n";
+  std::cout << "Absolute value of " << kNum << ": " << absd << "\n";
+  std::cout << hNum << " to the power of " << iNum << " = " << power2 << "\n";
 
   return 0;
 }
